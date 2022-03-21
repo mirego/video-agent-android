@@ -1,0 +1,34 @@
+task sourcesJar(type: Jar) {
+    from android.sourceSets.getByName("main").java.srcDirs
+    classifier = "sources"
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            nexus(MavenPublication) {
+                groupId = 'ca.bellmedia.lib.dependencies'
+                artifactId = project.name
+                version = android.defaultConfig.versionName
+
+                from components.release
+                artifact sourcesJar
+            }
+        }
+        repositories {
+            maven {
+                url = "https://nexus.int.bellmedia.ca/repository/releases"
+                credentials {
+                    username = System.getenv("bellNexusUsername")
+                        ?: project.properties["bellNexusUsername"].toString()
+                    password = System.getenv("bellNexusPassword")
+                        ?: project.properties["bellNexusPassword"].toString()
+                }
+            }
+        }
+    }
+}
