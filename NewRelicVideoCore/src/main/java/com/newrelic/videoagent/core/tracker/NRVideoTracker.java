@@ -259,7 +259,6 @@ public class NRVideoTracker extends NRTracker {
     public void sendRequest() {
         if (state.goRequest()) {
             playtimeSinceLastEventTimestamp = 0L;
-            viewIdIndex++;
 
             if (state.isAd) {
                 sendEvent(AD_REQUEST);
@@ -339,6 +338,7 @@ public class NRVideoTracker extends NRTracker {
 
             stopHeartbeat();
 
+            viewIdIndex++;
             numberOfErrors = 0;
             playtimeSinceLastEventTimestamp = 0L;
             playtimeSinceLastEvent = 0L;
