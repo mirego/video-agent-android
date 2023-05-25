@@ -203,11 +203,11 @@ public class NRTrackerExoPlayer extends NRVideoTracker implements Player.Listene
                 return src.toString();
             }
             catch (Exception e) {
-                return "";
+                return null;
             }
         }
         else {
-            return "";
+            return null;
         }
     }
 
