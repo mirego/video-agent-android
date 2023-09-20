@@ -10,7 +10,7 @@ artifacts {
 afterEvaluate {
     publishing {
         publications {
-            nexus(MavenPublication) {
+            release(MavenPublication) {
                 groupId = 'ca.bellmedia.lib.dependencies'
                 artifactId = project.name
                 version = android.defaultConfig.versionName
@@ -21,12 +21,23 @@ afterEvaluate {
         }
         repositories {
             maven {
+                name = "Nexus"
                 url = "https://nexus.int.bellmedia.ca/repository/releases"
                 credentials {
                     username = System.getenv("bellNexusUsername")
                         ?: project.properties["bellNexusUsername"].toString()
                     password = System.getenv("bellNexusPassword")
                         ?: project.properties["bellNexusPassword"].toString()
+                }
+            }
+            maven {
+                name = "CodeArtifact"
+                url = uri("https://jasper-722207059439.d.codeartifact.us-east-1.amazonaws.com/maven/jasper/")
+                credentials {
+                    username = System.getenv("jasperCodeArtifactUsername")
+                            ?: project.properties["jasperCodeArtifactUsername"].toString()
+                    password = System.getenv("jasperCodeArtifactPassword")
+                            ?: project.properties["jasperCodeArtifactPassword"].toString()
                 }
             }
         }
