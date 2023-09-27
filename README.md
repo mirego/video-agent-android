@@ -159,6 +159,27 @@ The `app` folder contains a usage example that shows the basics of video trackin
 
 The `Test` folder contains the test apps.
 
+## Publishing
+
+The 3 different library projects (NewRelicVideoCore, NRExoPlayerTracker and NRIMATracker) are published on 2 different artifact repositories. 
+
+* Nexus is hosted by BellMedia and requires a VPN connection as well as a BellMedia account
+* CodeArtifact is hosted by Jasper and requires an AWS account only
+
+### Code Artifact
+
+Having a proper AWS profile configured locally (`~/.aws/config`) (ref: [IAM Role](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)) is mandatory for the following steps to work properly:
+
+Prepare a default 12 hours authentication token:
+```shell
+export CODEARTIFACT_AUTH_TOKEN=`AWS_PROFILE=bellmedia-jasper aws codeartifact get-authorization-token --domain jasper --domain-owner 722207059439 --region us-east-1 --query authorizationToken --output text`
+```
+
+Publish the library:
+```shell
+jasperCodeArtifactUsername=aws jasperCodeArtifactPassword=${CODEARTIFACT_AUTH_TOKEN} ./gradlew publishReleasePublicationToCodeArtifactRepository
+```
+
 ## Support
 
 New Relic has open-sourced this project. This project is provided AS-IS WITHOUT WARRANTY OR DEDICATED SUPPORT. Issues and contributions should be reported to the project here on GitHub.
